@@ -6,6 +6,7 @@ function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&type
 const saved=load();
 const settings={...defaults,...(saved.settings||{})};
 let history=Array.isArray(saved.history)?saved.history.filter(x=>x&&Number.isFinite(x.at)&&Number.isFinite(x.minutes)).slice(-500):[];
+let editingTime=false;
 let state=saved.state&&typeof saved.state==='object'?saved.state:{phase:'focus',completed:0,remaining:settings.focus*60,running:false,deadline:null};
 if(!['focus','short','long'].includes(state.phase))state.phase='focus';
 if(!Number.isFinite(state.remaining)||state.remaining<0)state.remaining=settings.focus*60;
@@ -32,7 +33,7 @@ function renderHistory(){
  }
 }
 function render(){
- $('time').textContent=fmt(state.remaining);
+ if(!editingTime)$('time').textContent=fmt(state.remaining);
  $('time').style.color=settings.color;
  $('start').textContent=state.running?'Pause':state.remaining===0?'Start':'Start / Resume';
  $('status').textContent=(state.phase==='focus'?'Focus':state.phase==='short'?'Short break':'Long break')+' · '+(state.completed+1)+' focus session'+(settings.mode==='manual'?' · manual':'');
@@ -75,8 +76,12 @@ function start(){
  persist();render();
 }
 function reset(){state.running=false;state.deadline=null;state.remaining=duration(state.phase);persist();render()}
+function restart(){state.running=true;state.remaining=duration(state.phase);state.deadline=Date.now()+state.remaining*1000;persist();render()}
 function skip(){state.running=false;state.deadline=null;if(settings.mode==='auto'){state.phase=state.phase==='focus'?'short':'focus'}else{state.phase='focus'}state.remaining=duration(state.phase);persist();render()}
-function fillForm(){for(const key of ['mode','focus','short','long','cycles','goal','color','scale','sound','notify','autoStart']){$(key).type==='checkbox'?$(key).checked=!!settings[key]:$(key).value=settings[key]}$('scaleValue').textContent=settings.scale+'%'}
+function syncQuick(){ $('quickScale').value=settings.scale;$('quickScaleValue').textContent=settings.scale+'%';$('quickColor').value=settings.color; }
+function setScale(value){settings.scale=clamp(value,40,200,100);$('scale').value=settings.scale;syncQuick();window.museWindow?.resize(settings.scale);persist()}
+function setColor(value){if(!/^#[0-9a-f]{6}$/i.test(value))return;settings.color=value;$('color').value=value;syncQuick();render();persist()}
+function fillForm(){for(const key of ['mode','focus','short','long','cycles','goal','color','scale','sound','notify','autoStart']){$(key).type==='checkbox'?$(key).checked=!!settings[key]:$(key).value=settings[key]}$('scaleValue').textContent=settings.scale+'%';syncQuick()}
 function clamp(value,min,max,fallback){const n=Number(value);return Number.isFinite(n)?Math.min(max,Math.max(min,Math.round(n))):fallback}
 function apply(){
  const wasRunning=state.running;
@@ -90,8 +95,28 @@ function apply(){
  window.museWindow?.resize(settings.scale);
  fillForm();persist();render();
 }
+$('time').addEventListener('click',()=>{
+ editingTime=true;
+ const total=Math.ceil(state.running?(state.deadline-Date.now())/1000:state.remaining);
+ $('editHours').value=Math.floor(Math.max(0,total)/3600);
+ $('editMinutes').value=Math.ceil(Math.max(0,total)%3600/60);
+ $('timeEditor').hidden=false;$('editHours').focus();
+});
+$('cancelTime').addEventListener('click',()=>{editingTime=false;$('timeEditor').hidden=true;render()});
+$('saveTime').addEventListener('click',()=>{
+ const hours=Number($('editHours').value),mins=Number($('editMinutes').value);
+ if(!Number.isInteger(hours)||!Number.isInteger(mins)||hours<0||hours>23||mins<0||mins>59||hours*60+mins<1){$('status').textContent='Choose 1 minute to 23 hours 59 minutes';return}
+ state.running=false;state.deadline=null;state.remaining=(hours*60+mins)*60;
+ state.phase='focus';settings.focus=hours*60+mins;settings.mode='manual';
+ editingTime=false;$('timeEditor').hidden=true;fillForm();persist();render();
+});
+$('quickScale').addEventListener('input',e=>setScale(e.target.value));
+$('smaller').addEventListener('click',()=>setScale(settings.scale-5));
+$('bigger').addEventListener('click',()=>setScale(settings.scale+5));
+$('quickColor').addEventListener('input',e=>setColor(e.target.value));
 $('start').addEventListener('click',start);
 $('reset').addEventListener('click',reset);
+$('restart').addEventListener('click',restart);
 $('skip').addEventListener('click',skip);
 $('settingsToggle').addEventListener('click',()=>{$('settings').hidden=!$('settings').hidden});
 $('apply').addEventListener('click',apply);

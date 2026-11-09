@@ -1,1 +1,1 @@
-const {contextBridge,ipcRenderer}=require('electron');contextBridge.exposeInMainWorld('museWindow',{resize:scale=>ipcRenderer.invoke('muse:resize',scale),hide:()=>ipcRenderer.invoke('muse:hide'),close:()=>ipcRenderer.invoke('muse:close')});
+const {contextBridge,ipcRenderer}=require('electron');contextBridge.exposeInMainWorld('museWindow',{resize:(scale,expanded=false)=>ipcRenderer.invoke('muse:resize',scale,expanded),hide:()=>ipcRenderer.invoke('muse:hide'),close:()=>ipcRenderer.invoke('muse:close')});

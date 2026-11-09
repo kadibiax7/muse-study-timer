@@ -1,6 +1,6 @@
 {
   "name": "muse-study-timer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Floating study companion with Pomodoro cycles and local progress",
   "main": "main.js",
   "author": "Chikadibia",

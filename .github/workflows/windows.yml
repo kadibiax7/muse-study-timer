@@ -27,7 +27,7 @@ jobs:
       - name: Upload installer for testing
         uses: actions/upload-artifact@v4
         with:
-          name: Muse-Study-Timer-Windows
+          name: Kadibia-Study-Timer-Windows
           path: dist/*.exe
           if-no-files-found: error
       - name: Publish installer to GitHub Release
@@ -36,4 +36,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
         run: |
-          gh release create "${{ github.ref_name }}" dist/*.exe --title "Muse Study Timer ${{ github.ref_name }}" --notes "Windows installer. Unsigned build: Windows SmartScreen may display a warning." --verify-tag
+          gh release create "${{ github.ref_name }}" dist/*.exe --title "Kadibia Study Timer ${{ github.ref_name }}" --notes "Windows installer. Unsigned build: Windows SmartScreen may display a warning." --verify-tag

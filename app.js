@@ -87,7 +87,7 @@ function apply(){
  const wasRunning=state.running;
  if(wasRunning){state.remaining=Math.max(0,Math.ceil((state.deadline-Date.now())/1000));state.running=false;state.deadline=null}
  settings.mode=$('mode').value==='manual'?'manual':'auto';
- for(const [key,min,max] of [['focus',1,240],['short',1,120],['long',1,120],['cycles',1,12],['goal',1,1440],['scale',40,200]])settings[key]=clamp($(key).value,min,max,defaults[key]);
+ for(const [key,min,max] of [['focus',1,1439],['short',1,120],['long',1,120],['cycles',1,12],['goal',1,1440],['scale',40,200]])settings[key]=clamp($(key).value,min,max,defaults[key]);
  settings.color=/^#[0-9a-f]{6}$/i.test($('color').value)?$('color').value:defaults.color;
  for(const key of ['sound','notify','autoStart'])settings[key]=$(key).checked;
  state={phase:'focus',completed:0,remaining:duration('focus'),running:false,deadline:null};

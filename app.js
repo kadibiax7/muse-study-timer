@@ -121,6 +121,7 @@ $('restart').addEventListener('click',restart);
 $('skip').addEventListener('click',skip);
 $('settingsToggle').addEventListener('click',()=>{$('settings').hidden=!$('settings').hidden});
 $('menuButton').addEventListener('click',()=>toggleControls());
+$('done').addEventListener('click',()=>toggleControls(false));
 $('character').addEventListener('contextmenu',e=>{e.preventDefault();toggleControls(true)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('timeEditor').hidden){editingTime=false;$('timeEditor').hidden=true;render()}else toggleControls(false)}});
 

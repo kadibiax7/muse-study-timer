@@ -1,7 +1,7 @@
 {
-  "name": "muse-study-timer",
+  "name": "kadibia-study-timer",
   "version": "2.1.0",
-  "description": "Floating study companion with Pomodoro cycles and local progress",
+  "description": "Kadibia floating study companion with focus cycles and progress",
   "main": "main.js",
   "author": "Chikadibia",
   "license": "MIT",
@@ -15,8 +15,8 @@
     "electron-builder": "^26.0.0"
   },
   "build": {
-    "appId": "com.muse.studytimer",
-    "productName": "Muse Study Timer",
+    "appId": "com.kadibia.studytimer",
+    "productName": "Kadibia Study Timer",
     "files": [
       "index.html",
       "style.css",
@@ -36,7 +36,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "artifactName": "Muse-Study-Timer-Setup-${version}.${ext}"
+      "artifactName": "Kadibia-Study-Timer-Setup-${version}.${ext}"
     }
   }
 }

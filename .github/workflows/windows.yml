@@ -1,0 +1,39 @@
+name: Windows installer
+on:
+  push:
+    branches: [main, feature/study-companion-v2]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Check JavaScript
+        run: npm run check
+      - name: Build Windows installer
+        run: npx electron-builder --win nsis --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Upload installer for testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: Muse-Study-Timer-Windows
+          path: dist/*.exe
+          if-no-files-found: error
+      - name: Publish installer to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          gh release create "${{ github.ref_name }}" dist/*.exe --title "Muse Study Timer ${{ github.ref_name }}" --notes "Windows installer. Unsigned build: Windows SmartScreen may display a warning." --verify-tag

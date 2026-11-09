@@ -1,5 +1,16 @@
 # Muse Study Companion v2
 
+## Download for Windows
+
+**[Download the latest Windows installer (GitHub Releases)](https://github.com/kadibiax7/muse-study-timer/releases/latest)**
+
+When a release has been published, download the file named `Muse-Study-Timer-Setup-<version>.exe` under **Assets**. Run it and follow the installer prompts. The installer can create Desktop and Start Menu shortcuts. **Until the first release is published, this page will not contain a downloadable installer.**
+
+For test builds before release, open the repository's **Actions → Windows installer → latest successful run → Artifacts**, and download `Muse-Study-Timer-Windows` (GitHub sign-in may be required). Extract the ZIP and run the setup EXE.
+
+The installer is currently unsigned. Windows may show a SmartScreen warning. Verify that you downloaded it from this repository; code signing is recommended before broad public distribution.
+
+
 Floating Windows study timer with Jolly, built with Electron.
 
 ## Features
@@ -18,7 +29,7 @@ Install Node.js, then:
 npm install
 npm start
 ```
-Build a portable Windows executable with `npm run dist`. For distribution to others, sign the executable rather than instructing people to bypass SmartScreen.
+Build a Windows setup executable with `npm run dist` (output in `dist/`). For distribution to others, sign the executable rather than instructing people to bypass SmartScreen.
 
 ## Behavior
 Settings are saved locally. Saving settings restarts the current focus session. Reset discards current session time without recording it. Skip advances phases without recording a completed focus session. Only fully completed focus sessions are counted. Closing while a timer runs preserves its deadline; reopening resumes based on the actual clock. Long system sleep completes at most one phase to avoid falsely counting multiple sessions.

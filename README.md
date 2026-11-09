@@ -13,6 +13,15 @@ The installer is currently unsigned. Windows may show a SmartScreen warning. Ver
 
 Floating Windows study timer with Jolly, built with Electron.
 
+## Everyday controls
+
+- **Click the large countdown on Jolly** to edit hours and minutes directly. Saving pauses and sets a manual focus countdown.
+- **Drag Jolly** to reposition the floating window.
+- **Size slider or +/- buttons** on the main panel resize the character and timer without code.
+- **Color picker** on the main panel changes countdown text color immediately.
+- **Start / Pause**, **Restart** (starts the current phase over), and **Reset** (stops and restores its full duration) are always visible.
+- Open **Settings** only for optional advanced break cycles, goals and notifications.
+
 ## Features
 - Accurate wall-clock countdown (including when the renderer is delayed)
 - Automatic focus/short-break/long-break cycles or manual countdown

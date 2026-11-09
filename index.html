@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Muse Study Companion</title>
+<title>Kadibia Study Timer</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
 <link rel="stylesheet" href="style.css"></head>
 <body><main id="stage" aria-label="Floating Muse study companion">
-  <div id="character" title="Drag me to move"><img src="jolly.png" alt="Jolly the study companion"><div id="date"></div><button id="time" type="button" title="Click to edit the countdown" aria-label="Edit countdown time">25:00</button><div id="timeEditor" hidden><label>Hours <input id="editHours" type="number" min="0" max="23" value="0"></label><label>Minutes <input id="editMinutes" type="number" min="0" max="59" value="25"></label><button id="saveTime">Set time</button><button id="cancelTime">Cancel</button></div></div>
-  <div id="panel">
-    <div class="buttons"><button id="start" class="primary">Start</button><button id="restart">Restart</button><button id="reset">Reset</button><button id="settingsToggle">Settings</button><button id="hide">Hide</button><button id="close">×</button></div>
+  <div id="character" title="Drag me to move"><img src="jolly.png" alt="Jolly the study companion"><button id="time" type="button" title="Click to edit the countdown" aria-label="Edit countdown time">25:00</button><div id="timeEditor" hidden><label>Hours <input id="editHours" type="number" min="0" max="23" value="0"></label><label>Minutes <input id="editMinutes" type="number" min="0" max="59" value="25"></label><button id="saveTime">Set time</button><button id="cancelTime">Cancel</button></div><button id="menuButton" type="button" title="Show controls" aria-label="Show controls" aria-expanded="false">⚙</button></div>
+  <div id="panel" hidden>
+    <div class="buttons"><button id="start" class="primary">Start</button><button id="restart">Restart</button><button id="reset">Reset</button><button id="settingsToggle">Settings</button><button id="done">Done ✓</button><button id="hide">Hide</button><button id="close">×</button></div>
     <div id="quickTools"><label>Size <input id="quickScale" type="range" min="40" max="200" step="5" aria-label="Resize character and timer"></label><output id="quickScaleValue"></output><button id="smaller" aria-label="Make smaller">−</button><button id="bigger" aria-label="Make bigger">+</button><label>Color <input id="quickColor" type="color" aria-label="Timer text color"></label></div><div id="status" role="status">Focus session 1 of 4</div>
     <div id="settings" hidden>
       <label>Mode <select id="mode"><option value="auto">Automatic focus / breaks</option><option value="manual">Manual countdown</option></select></label>

@@ -37,7 +37,6 @@ function render(){
  $('time').style.color=settings.color;
  $('start').textContent=state.running?'Pause':state.remaining===0?'Start':'Start / Resume';
  $('status').textContent=(state.phase==='focus'?'Focus':state.phase==='short'?'Short break':'Long break')+' · '+(state.completed+1)+' focus session'+(settings.mode==='manual'?' · manual':'');
- $('date').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
  renderHistory();
 }
 function beep(){
@@ -46,7 +45,7 @@ function beep(){
 }
 function notification(message){
  if(!settings.notify||!('Notification'in window)||Notification.permission!=='granted')return;
- try{new Notification('Muse Study Companion',{body:message})}catch{}
+ try{new Notification('Kadibia Study Timer',{body:message})}catch{}
 }
 function finish(){
  const phase=state.phase;
@@ -78,8 +77,10 @@ function start(){
 function reset(){state.running=false;state.deadline=null;state.remaining=duration(state.phase);persist();render()}
 function restart(){state.running=true;state.remaining=duration(state.phase);state.deadline=Date.now()+state.remaining*1000;persist();render()}
 function skip(){state.running=false;state.deadline=null;if(settings.mode==='auto'){state.phase=state.phase==='focus'?'short':'focus'}else{state.phase='focus'}state.remaining=duration(state.phase);persist();render()}
+function controlsOpen(){return !$('panel').hidden}
+function toggleControls(show=!controlsOpen()){$('panel').hidden=!show;$('menuButton').setAttribute('aria-expanded',String(show));$('menuButton').title=show?'Hide controls':'Show controls';window.museWindow?.resize(settings.scale,show)}
 function syncQuick(){ $('quickScale').value=settings.scale;$('quickScaleValue').textContent=settings.scale+'%';$('quickColor').value=settings.color; }
-function setScale(value){settings.scale=clamp(value,40,200,100);$('scale').value=settings.scale;syncQuick();window.museWindow?.resize(settings.scale);persist()}
+function setScale(value){settings.scale=clamp(value,40,200,100);$('scale').value=settings.scale;syncQuick();window.museWindow?.resize(settings.scale,controlsOpen());persist()}
 function setColor(value){if(!/^#[0-9a-f]{6}$/i.test(value))return;settings.color=value;$('color').value=value;syncQuick();render();persist()}
 function fillForm(){for(const key of ['mode','focus','short','long','cycles','goal','color','scale','sound','notify','autoStart']){$(key).type==='checkbox'?$(key).checked=!!settings[key]:$(key).value=settings[key]}$('scaleValue').textContent=settings.scale+'%';syncQuick()}
 function clamp(value,min,max,fallback){const n=Number(value);return Number.isFinite(n)?Math.min(max,Math.max(min,Math.round(n))):fallback}
@@ -92,7 +93,7 @@ function apply(){
  for(const key of ['sound','notify','autoStart'])settings[key]=$(key).checked;
  state={phase:'focus',completed:0,remaining:duration('focus'),running:false,deadline:null};
  if(settings.notify&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission();
- window.museWindow?.resize(settings.scale);
+ window.museWindow?.resize(settings.scale,controlsOpen());
  fillForm();persist();render();
 }
 $('time').addEventListener('click',()=>{
@@ -119,6 +120,11 @@ $('reset').addEventListener('click',reset);
 $('restart').addEventListener('click',restart);
 $('skip').addEventListener('click',skip);
 $('settingsToggle').addEventListener('click',()=>{$('settings').hidden=!$('settings').hidden});
+$('menuButton').addEventListener('click',()=>toggleControls());
+$('done').addEventListener('click',()=>toggleControls(false));
+$('character').addEventListener('contextmenu',e=>{e.preventDefault();toggleControls(true)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('timeEditor').hidden){editingTime=false;$('timeEditor').hidden=true;render()}else toggleControls(false)}});
+
 $('apply').addEventListener('click',apply);
 $('scale').addEventListener('input',()=>{$('scaleValue').textContent=$('scale').value+'%'});
 $('resetSettings').addEventListener('click',()=>{Object.assign(settings,defaults);fillForm();apply()});
@@ -126,4 +132,4 @@ $('clearHistory').addEventListener('click',()=>{if(confirm('Delete all locally s
 $('hide').addEventListener('click',()=>window.museWindow?.hide());
 $('close').addEventListener('click',()=>window.museWindow?.close());
 window.addEventListener('beforeunload',persist);
-fillForm();window.museWindow?.resize(settings.scale);tick();setInterval(tick,1000);setInterval(persist,10000);
+fillForm();window.museWindow?.resize(settings.scale,false);tick();setInterval(tick,1000);setInterval(persist,10000);

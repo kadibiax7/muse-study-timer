@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win",
+    "dist": "electron-builder --win nsis",
     "check": "node --check main.js && node --check preload.js && node --check app.js"
   },
   "devDependencies": {
@@ -28,8 +28,15 @@
     ],
     "win": {
       "target": [
-        "portable"
+        "nsis"
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "Muse-Study-Timer-Setup-${version}.${ext}"
     }
   }
 }

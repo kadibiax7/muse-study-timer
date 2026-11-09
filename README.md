@@ -1,12 +1,12 @@
-# Muse Study Companion v2
+# Kadibia Study Timer v2
 
 ## Download for Windows
 
 **[Download the latest Windows installer (GitHub Releases)](https://github.com/kadibiax7/muse-study-timer/releases/latest)**
 
-When a release has been published, download the file named `Muse-Study-Timer-Setup-<version>.exe` under **Assets**. Run it and follow the installer prompts. The installer can create Desktop and Start Menu shortcuts. **Until the first release is published, this page will not contain a downloadable installer.**
+When a release has been published, download the file named `Kadibia-Study-Timer-Setup-<version>.exe` under **Assets**. Run it and follow the installer prompts. The installer can create Desktop and Start Menu shortcuts. **Until the first release is published, this page will not contain a downloadable installer.**
 
-For test builds before release, open the repository's **Actions → Windows installer → latest successful run → Artifacts**, and download `Muse-Study-Timer-Windows` (GitHub sign-in may be required). Extract the ZIP and run the setup EXE.
+For test builds before release, open the repository's **Actions → Windows installer → latest successful run → Artifacts**, and download `Kadibia-Study-Timer-Windows` (GitHub sign-in may be required). Extract the ZIP and run the setup EXE.
 
 The installer is currently unsigned. Windows may show a SmartScreen warning. Verify that you downloaded it from this repository; code signing is recommended before broad public distribution.
 
@@ -58,3 +58,7 @@ History is capped at 500 completed focus sessions. Clearing history requires con
 
 ## Verification
 Run `npm run check` for JavaScript syntax checks. Manual acceptance tests: focus timer completion, break transition, pause/resume, reset/skip, sleep/wake, restart while running, goal/history persistence, notification permission, size/color persistence and portable build launch.
+
+## Branding and asset rights
+
+The app is now branded **Kadibia Study Timer**. The repository URL retains its previous name until the repository itself is renamed. The bundled `jolly.png` artwork should be reviewed for distribution rights before a public release; renaming the software does not transfer rights to third-party artwork.

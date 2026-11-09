@@ -13,6 +13,10 @@ The installer is currently unsigned. Windows may show a SmartScreen warning. Ver
 
 Floating Windows study timer with Jolly, built with Electron.
 
+## Minimal floating mode
+
+By default, only Jolly and the clickable countdown are visible. The date and large control panel are hidden. Hover over Jolly to reveal the small gear, click the gear or right-click Jolly to open the controls, then click **Done** or press **Escape** to hide them. The window expands only while controls are open. The countdown remains directly editable.
+
 ## Everyday controls
 
 - **Click the large countdown on Jolly** to edit hours and minutes directly. Saving pauses and sets a manual focus countdown.

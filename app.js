@@ -45,7 +45,7 @@ function beep(){
 }
 function notification(message){
  if(!settings.notify||!('Notification'in window)||Notification.permission!=='granted')return;
- try{new Notification('Muse Study Companion',{body:message})}catch{}
+ try{new Notification('Kadibia Study Timer',{body:message})}catch{}
 }
 function finish(){
  const phase=state.phase;
